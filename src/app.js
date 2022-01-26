@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import swaggerUi from 'swagger-ui-express'
 import { swaggerDocument } from './config/index.js'
+import appRouter from './router.js'
 
 dotenv.config()
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 3000
 app.use(express.json())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(appRouter)
 
 app.listen(port, () => {
   console.log(`server listening on port ${port}`)
