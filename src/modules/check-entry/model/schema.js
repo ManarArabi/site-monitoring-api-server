@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import { URL_SCHEMA } from '../../../common/mongoose-schemas.js'
 import { INTERNET_PROTOCOLS } from '../constants.js'
 
-export const checkEntrySchema = mongoose.schema({
+export const checkEntrySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -69,7 +69,7 @@ export const checkEntrySchema = mongoose.schema({
 
   // A list of key/value pairs custom HTTP headers to be sent with the polling request
   httpHeaders: {
-    type: mongoose.Types.mixed
+    type: mongoose.Schema.Types.Mixed
   },
 
   // The response assertion to be used on the polling response
