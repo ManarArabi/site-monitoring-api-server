@@ -1,7 +1,12 @@
+import Joi from 'joi'
 import { isEmpty, isNil } from 'ramda'
 
 export const validateSchema = (schema) => {
   const { query: querySchema = {}, body: bodySchema = {}, params: paramsSchema = {} } = schema
+
+  const compiledParamsSchema = Joi.compile(paramsSchema)
+  const compiledQuerySchema = Joi.compile(querySchema)
+  const compiledBodySchema = Joi.compile(bodySchema)
 
   const validationOptions = { abortEarly: false }
 
@@ -9,7 +14,7 @@ export const validateSchema = (schema) => {
     const { params, query, body } = req
 
     if (!isEmpty(querySchema)) {
-      const { value: validatedQuery, error } = querySchema.validate(query, validationOptions)
+      const { value: validatedQuery, error } = compiledQuerySchema.validate(query, validationOptions)
 
       if (!isNil(error)) {
         next(error)
@@ -19,7 +24,7 @@ export const validateSchema = (schema) => {
     }
 
     if (!isEmpty(bodySchema)) {
-      const { value: validatedBody, error } = bodySchema.validate(body, validationOptions)
+      const { value: validatedBody, error } = compiledBodySchema.validate(body, validationOptions)
 
       if (!isNil(error)) {
         next(error)
@@ -29,7 +34,7 @@ export const validateSchema = (schema) => {
     }
 
     if (!isEmpty(paramsSchema)) {
-      const { value: validatedParams, error } = paramsSchema.validate(params, validationOptions)
+      const { value: validatedParams, error } = compiledParamsSchema.validate(params, validationOptions)
 
       if (!isNil(error)) {
         next(error)
