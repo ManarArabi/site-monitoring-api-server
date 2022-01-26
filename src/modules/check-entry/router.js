@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { validateSchema } from '../../common/middleware/joi'
-import { checkEntryController } from './controller'
-import { checkEntryValidation } from './validation'
+import { validateSchema } from '../../common/middleware/joi.js'
+import { checkEntryController } from './controller.js'
+import { checkEntryValidation } from './validation.js'
 
 const router = Router()
 

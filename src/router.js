@@ -3,6 +3,6 @@ import CheckEntryRouter from './modules/check-entry/router.js'
 
 const router = new Router()
 
-router.use('check-entries', CheckEntryRouter)
+router.use('/check-entries', CheckEntryRouter)
 
 export default router
