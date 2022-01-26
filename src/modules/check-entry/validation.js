@@ -10,10 +10,9 @@ export const checkEntryValidation = {
       protocol: Joi.string().valid(...INTERNET_PROTOCOLS).required(),
       path: Joi.string(),
       port: Joi.number(),
-      webhook: Joi.string().regex(URL_REGEX),
-      timeout: Joi.number().required().default(5),
-      interval: Joi.number().required().default(10),
-      threshold: Joi.number().required().default(1),
+      timeout: Joi.number().default(5),
+      interval: Joi.number().default(10),
+      threshold: Joi.number().default(1),
       authentication: {
         username: Joi.string(),
         password: Joi.string()
@@ -21,9 +20,7 @@ export const checkEntryValidation = {
       httpHeaders: Joi.array().items(Joi.object()),
       assert: { statusCode: Joi.number() },
 
-      tags: {
-        type: Joi.array().items(Joi.string)
-      },
+      tags: Joi.array().items(Joi.string()),
 
       ignoreSSL: Joi.boolean()
     }
