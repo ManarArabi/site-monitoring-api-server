@@ -10,7 +10,8 @@ export const checkEntrySchema = mongoose.schema({
 
   userId: {
     type: mongoose.Types.ObjectId,
-    ref: 'users'
+    ref: 'users',
+    required: true
   },
 
   url: URL_SCHEMA,
