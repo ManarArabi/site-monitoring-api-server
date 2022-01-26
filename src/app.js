@@ -2,8 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import swaggerUi from 'swagger-ui-express'
-// import * as swaggerSetup from './swagger/setup.json'
-import { swaggerDocument } from './swagger/setup.js'
+import { swaggerDocument } from './config/index.js'
 
 dotenv.config()
 

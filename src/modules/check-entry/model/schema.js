@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import { URL_SCHEMA } from '../../../common/mongoose-schemas'
-import { INTERNET_PROTOCOLS } from '../constants'
+import { URL_SCHEMA } from '../../../common/mongoose-schemas.js'
+import { INTERNET_PROTOCOLS } from '../constants.js'
 
 export const checkEntrySchema = mongoose.schema({
   name: {
