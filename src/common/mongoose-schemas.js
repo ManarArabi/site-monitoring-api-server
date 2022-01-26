@@ -1,4 +1,4 @@
-import { URL_REGEX } from './constants.js'
+import { URL_REGEX } from './constants/index.js'
 
 export const URL_SCHEMA = {
   type: String,
