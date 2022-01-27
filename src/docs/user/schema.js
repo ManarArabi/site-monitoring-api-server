@@ -16,3 +16,18 @@ export const createUserResponseBodySchema = {
     email: { type: 'string' }
   }
 }
+
+export const loginUserRequestBodySchema = {
+  type: 'object',
+  properties: {
+    password: { type: 'string' },
+    email: { type: 'string' }
+  }
+}
+
+export const loginUserResponseBodySchema = {
+  type: 'object',
+  properties: {
+    jwt: { type: 'string' }
+  }
+}
