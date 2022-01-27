@@ -2,12 +2,13 @@
   "name": "site-monitoring-api-server",
   "version": "1.0.0",
   "description": "an uptime monitoring RESTful API server which allows authorized users to enter URLs they want monitored, and get detailed uptime reports about their availability, average response time, and total uptime/downtime.",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
-    "test": "jest"
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "dotenv": "^14.3.2",
@@ -29,6 +30,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.2.0",
     "jest": "^27.4.7",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }

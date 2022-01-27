@@ -14,7 +14,7 @@ export default {
   // cacheDirectory: "/tmp/jest_rs",
 
   // Automatically clear mock calls, instances and results before every test
-  clearMocks: true,
+  clearMocks: true
 
   // Indicates whether the coverage information should be collected while executing the test
   // collectCoverage: false,
@@ -191,4 +191,4 @@ export default {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
+}
