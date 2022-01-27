@@ -11,4 +11,10 @@ router.post(
   userController.createUser
 )
 
+router.post(
+  '/login',
+  validateSchema(userValidation.login),
+  userController.login
+)
+
 export default router

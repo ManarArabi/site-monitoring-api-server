@@ -1,4 +1,5 @@
 import httpStatus from 'http-status'
+import { isNil } from 'ramda'
 
 const { INTERNAL_SERVER_ERROR, BAD_REQUEST } = httpStatus
 
@@ -9,10 +10,23 @@ export const errorHandler = (error, req, res, next) => {
     message: 'Something Went Wrong'
   }
 
+  if (!isNil(error.status)) {
+    response.status = error.status
+  }
+
+  if (!isNil(error.message)) {
+    response.message = error.message
+  }
+
+  if (!isNil(error.meta)) {
+    response.meta = error.meta
+  }
+
   if (error.isJoi) {
     response.status = BAD_REQUEST
     response.message = 'Request body is not valid'
   }
 
+  console.log(error)
   return res.status(response.status).json(response)
 }

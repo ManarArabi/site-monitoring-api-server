@@ -7,5 +7,12 @@ export const userValidation = {
       password: Joi.string().required(),
       email: Joi.string().email().required()
     }
+  },
+
+  login: {
+    body: {
+      password: Joi.string().required(),
+      email: Joi.string().email().required()
+    }
   }
 }
