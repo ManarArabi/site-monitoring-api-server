@@ -16,14 +16,15 @@ export const checkEntryServices = {
     assert: { statusCode },
     tags = [],
     ignoreSSL
-  }) {
+  }, { callerId }) {
     let checkEntry = {
       name,
       url,
       protocol,
       timeout,
       interval,
-      threshold
+      threshold,
+      userId: callerId
     }
 
     if (!isNil(path)) { checkEntry.path = path }

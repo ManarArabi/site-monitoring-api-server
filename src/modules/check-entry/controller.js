@@ -6,11 +6,12 @@ const { CREATED, INTERNAL_SERVER_ERROR } = httpStatus
 export const checkEntryController = {
   async createCheckEntry (req, res, next) {
     const {
-      body
+      body,
+      user: { _id: userId }
     } = req
 
     try {
-      const checkEntry = await checkEntryServices.createCheckEntry(body)
+      const checkEntry = await checkEntryServices.createCheckEntry({ ...body }, { callerId: userId })
 
       return res.status(CREATED).send(checkEntry)
     } catch (error) {

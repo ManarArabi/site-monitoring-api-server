@@ -2,6 +2,8 @@ import httpStatus from 'http-status'
 import mongoose from 'mongoose'
 import request from 'supertest'
 import app from '../../app'
+import { generateJwt } from '../user/helpers'
+import { Users } from '../user/model'
 
 const { BAD_REQUEST, CREATED } = httpStatus
 
@@ -14,46 +16,67 @@ describe('Check Entry endpoints integration tests', () => {
     return mongoose.disconnect()
   })
 
-  it('It creates a check entry successfully', async () => {
-    const payload =
-    {
-      name: 'here',
-      url: 'www.google.com',
-      protocol: 'http',
-      path: '/here',
-      port: 5000,
-      timeout: 10,
-      httpHeaders: [
-        {
-          'cache-control': 'no-cache'
-        }
-      ],
-      assert: {
-        statusCode: 200
-      },
-      tags: [
-        'test'
-      ],
-      interval: 5,
-      threshold: 3,
-      ignoreSSL: true
-    }
+  describe('POST /check-entries/', () => {
+    let userJwt
 
-    const { status, body } = await request(app)
-      .post('/check-entries/')
-      .send(payload)
+    beforeAll(async () => {
+      const user = new Users({
+        email: 'email@test.com',
+        username: 'testing',
+        password: 'userPassword'
+      })
 
-    expect(status).toBe(CREATED)
+      await user.save()
 
-    const { _id, __v, ...rest } = body
-    expect(rest).toEqual(payload)
-  })
+      userJwt = await generateJwt({ data: { email: user.email, username: user.username } })
 
-  it('It returns bad request if the request body is not valid', async () => {
-    const { status } = await request(app)
-      .post('/check-entries/')
-      .send({})
+      user.jwt = userJwt
+      await user.save()
+    })
 
-    expect(status).toBe(BAD_REQUEST)
+    it('It creates a check entry successfully', async () => {
+      const payload =
+      {
+        name: 'here',
+        url: 'www.google.com',
+        protocol: 'http',
+        path: '/here',
+        port: 5000,
+        timeout: 10,
+        httpHeaders: [
+          {
+            'cache-control': 'no-cache'
+          }
+        ],
+        assert: {
+          statusCode: 200
+        },
+        tags: [
+          'test'
+        ],
+        interval: 5,
+        threshold: 3,
+        ignoreSSL: true
+      }
+
+      const { status, body } = await request(app)
+        .post('/check-entries/')
+        .set('Authorization', `JWT ${userJwt}`)
+        .send(payload)
+
+      expect(status).toBe(CREATED)
+
+      const { _id, __v, userId, ...rest } = body
+      expect(rest).toEqual(payload)
+    })
+
+    it('It returns bad request if the request body is not valid', async () => {
+      const { status } = await request(app)
+        .post('/check-entries/')
+        .set('Authorization', `JWT ${userJwt}`)
+        .send({})
+
+      expect(status).toBe(BAD_REQUEST)
+    })
   })
 })
