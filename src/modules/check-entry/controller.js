@@ -10,9 +10,9 @@ export const checkEntryController = {
     } = req
 
     try {
-      await checkEntryServices.createCheckEntry(body)
+      const checkEntry = await checkEntryServices.createCheckEntry(body)
 
-      return res.status(CREATED).send()
+      return res.status(CREATED).send(checkEntry)
     } catch (error) {
       console.log(error)
       return res.status(INTERNAL_SERVER_ERROR).send()

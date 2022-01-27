@@ -17,7 +17,7 @@ export const checkEntryServices = {
     tags = [],
     ignoreSSL
   }) {
-    const checkEntry = {
+    let checkEntry = {
       name,
       url,
       protocol,
@@ -30,11 +30,16 @@ export const checkEntryServices = {
     if (!isNil(port)) { checkEntry.port = port }
     if (!isNil(username)) { checkEntry.username = username }
     if (!isNil(password)) { checkEntry.password = password }
-    if (!isNil(statusCode)) { checkEntry.statusCode = statusCode }
+    if (!isNil(statusCode)) {
+      checkEntry.assert = {}
+      checkEntry.assert.statusCode = statusCode
+    }
     if (!isNil(ignoreSSL)) { checkEntry.ignoreSSL = ignoreSSL }
     if (!isEmpty(httpHeaders)) { checkEntry.httpHeaders = httpHeaders }
     if (!isEmpty(tags)) { checkEntry.tags = tags }
 
-    await CheckEntries.create(checkEntry)
+    checkEntry = await CheckEntries.create(checkEntry)
+
+    return checkEntry
   }
 }
