@@ -8,7 +8,7 @@ const checkEntrySchema = {
     protocol: { type: 'string', enum: INTERNET_PROTOCOLS },
     path: { type: 'string' },
     port: { type: 'number' },
-    timeout: { type: 'number' },
+    timeout: { type: 'number', description: 'In Seconds' },
     httpHeaders: {
       type: 'array',
       items: {
@@ -22,7 +22,7 @@ const checkEntrySchema = {
       }
     },
     tags: { type: 'array', items: { type: 'string' } },
-    interval: { type: 'number' },
+    interval: { type: 'number', description: 'In Minutes' },
     threshold: { type: 'number' },
     ignoreSSL: { type: 'boolean' }
   }

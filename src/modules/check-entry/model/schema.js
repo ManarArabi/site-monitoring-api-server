@@ -27,7 +27,8 @@ export const checkEntrySchema = new mongoose.Schema({
   },
 
   port: {
-    type: Number
+    type: Number,
+    min: 0
   },
 
   webhook: {
@@ -35,17 +36,19 @@ export const checkEntrySchema = new mongoose.Schema({
     required: false
   },
 
-  // The timeout of the polling request
+  // The timeout of the polling request - in seconds
   timeout: {
     type: Number,
     required: true,
+    min: 0,
     default: 5
   },
 
-  // The time interval for polling requests
+  // The time interval for polling requests - in minutes
   interval: {
     type: Number,
     required: true,
+    min: 0,
     default: 10
   },
 
@@ -53,7 +56,8 @@ export const checkEntrySchema = new mongoose.Schema({
   threshold: {
     type: Number,
     required: true,
-    default: 1
+    default: 1,
+    min: 0
   },
 
   // An HTTP authentication header, with the Basic scheme, to be sent with the polling request

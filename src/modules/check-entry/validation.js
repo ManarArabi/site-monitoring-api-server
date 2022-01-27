@@ -9,10 +9,10 @@ export const checkEntryValidation = {
       url: Joi.string().regex(URL_REGEX).required(),
       protocol: Joi.string().valid(...INTERNET_PROTOCOLS).required(),
       path: Joi.string(),
-      port: Joi.number(),
-      timeout: Joi.number().default(5),
-      interval: Joi.number().default(10),
-      threshold: Joi.number().default(1),
+      port: Joi.number().min(0),
+      timeout: Joi.number().default(5).min(0),
+      interval: Joi.number().default(10).min(0),
+      threshold: Joi.number().default(1).min(0),
       authentication: {
         username: Joi.string(),
         password: Joi.string()
