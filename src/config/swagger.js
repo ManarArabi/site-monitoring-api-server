@@ -1,3 +1,6 @@
+import { moduleEndpointsDocumentation } from '../docs/index.js'
+import { tags } from '../docs/tags.js'
+
 export const swaggerDocument = {
   openapi: '3.0.0',
   info: {
@@ -6,16 +9,8 @@ export const swaggerDocument = {
   },
   host: 'localhost:3000',
   basePath: '/',
-  tags: [
-    {
-      name: 'Users',
-      description: 'API for users in the system'
-    },
-    {
-      name: 'Check entries',
-      description: 'API for check entries in the system'
-    }
-  ],
+  tags,
+  paths: moduleEndpointsDocumentation,
   schemes: ['http'],
   consumes: ['application/json'],
   produces: ['application/json']

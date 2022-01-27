@@ -89,3 +89,5 @@ export const checkEntrySchema = new mongoose.Schema({
     type: Boolean
   }
 })
+
+checkEntrySchema.index({ protocol: 1, url: 1, port: 1, path: 1, userId: 1 }, { unique: 1 })
