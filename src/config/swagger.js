@@ -3,10 +3,6 @@ export const swaggerDocument = {
   info: {
     version: '1.0.0',
     title: 'Site monitoring api endpoints Documentation',
-    license: {
-      name: 'MIT',
-      url: 'https://opensource.org/licenses/MIT'
-    }
   },
   host: 'localhost:3000',
   basePath: '/',
