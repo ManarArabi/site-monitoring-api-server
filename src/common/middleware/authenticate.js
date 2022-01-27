@@ -22,7 +22,6 @@ export const authenticate = async (req, res, next) => {
     req.token = token
     next()
   } catch (error) {
-    console.log(error)
     res.status(UNAUTHORIZED).send('Invalid jwt')
   }
 }

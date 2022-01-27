@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { URL_SCHEMA } from '../../../common/mongoose-schemas.js'
+import { URL_SCHEMA } from '../../../common/constants/mongoose-schemas.js'
 import { INTERNET_PROTOCOLS } from '../constants.js'
 
 export const checkEntrySchema = new mongoose.Schema({

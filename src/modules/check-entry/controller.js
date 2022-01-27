@@ -1,7 +1,7 @@
 import { checkEntryServices } from './service.js'
 import httpStatus from 'http-status'
 
-const { CREATED, INTERNAL_SERVER_ERROR } = httpStatus
+const { CREATED } = httpStatus
 
 export const checkEntryController = {
   async createCheckEntry (req, res, next) {
@@ -15,8 +15,7 @@ export const checkEntryController = {
 
       return res.status(CREATED).send(checkEntry)
     } catch (error) {
-      console.log(error)
-      return res.status(INTERNAL_SERVER_ERROR).send()
+      return next(error)
     }
   }
 }
