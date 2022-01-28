@@ -150,4 +150,46 @@ describe('Check Entry endpoints integration tests', () => {
       expect(updatedCheckEntry.ignoreSSL).toBe(payload.ignoreSSL)
     })
   })
+
+  describe('DELETE /check-entries/:id', () => {
+    let checkEntryId
+
+    beforeAll(async () => {
+      const checkEntry = new CheckEntries({
+        name: 'here',
+        url: 'www.google',
+        protocol: 'http',
+        path: '/here',
+        port: 5000,
+        timeout: 10,
+        httpHeaders: [
+          {
+            'cache-control': 'no-cache'
+          }
+        ],
+        assert: {
+          statusCode: 200
+        },
+        tags: [
+          'test'
+        ],
+        interval: 5,
+        threshold: 3,
+        ignoreSSL: true,
+        userId: user._id
+      })
+
+      await checkEntry.save()
+
+      checkEntryId = checkEntry._id
+    })
+
+    it('It deletes a check entry successfully', async () => {
+      const { status } = await request(app)
+        .delete(`/check-entries/${checkEntryId}`)
+        .set('Authorization', `JWT ${userJwt}`)
+
+      expect(status).toBe(OK)
+    })
+  })
 })

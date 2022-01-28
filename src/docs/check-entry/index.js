@@ -56,7 +56,7 @@ export const checkEntryEndpointsDocumentation = {
       },
 
       responses: {
-        201: {
+        200: {
           description: 'Check entry created successfully',
           content: {
             'application/json': {
@@ -77,7 +77,31 @@ export const checkEntryEndpointsDocumentation = {
           description: 'Internal server error'
         }
       }
+    },
 
+    delete: {
+      tags: [checkEntriesTag.name],
+      description: 'Deletes a check entry',
+
+      parameters: [checkEntryIdParameter],
+
+      responses: {
+        200: {
+          description: 'Check entry deleted successfully'
+        },
+
+        400: {
+          description: 'Bad Request'
+        },
+
+        404: {
+          description: 'There is no check entry linked to this id created by you'
+        },
+
+        500: {
+          description: 'Internal server error'
+        }
+      }
     }
   }
 }

@@ -20,4 +20,11 @@ router.patch(
   checkEntryController.updateCheckEntry
 )
 
+router.delete(
+  '/:id',
+  authenticate,
+  validateSchema(checkEntryValidation.deleteCheckEntry),
+  checkEntryController.deleteCheckEntry
+)
+
 export default router

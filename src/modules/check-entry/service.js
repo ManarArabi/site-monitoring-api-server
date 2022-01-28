@@ -100,5 +100,15 @@ export const checkEntryServices = {
     await CheckEntries.updateOne({ _id: checkEntryId }, updateQuery)
 
     return CheckEntries.findOne({ _id: checkEntryId }).lean()
+  },
+
+  async deleteCheckEntry ({ checkEntryId }, { callerId }) {
+    const checkEntry = await CheckEntries.findOne({ _id: checkEntryId, userId: callerId })
+
+    if (isNil(checkEntry)) {
+      throw new HttpError({ status: NOT_FOUND, message: 'There is no check entry linked to this id created by you' })
+    }
+
+    await CheckEntries.deleteOne({ _id: checkEntryId })
   }
 }

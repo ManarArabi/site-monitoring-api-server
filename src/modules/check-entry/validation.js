@@ -52,5 +52,11 @@ export const checkEntryValidation = {
       ignoreSSL: Joi.boolean(),
       active: Joi.boolean()
     }
+  },
+
+  deleteCheckEntry: {
+    url: {
+      id: Joi.string().required()
+    }
   }
 }

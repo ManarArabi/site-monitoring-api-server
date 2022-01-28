@@ -33,5 +33,20 @@ export const checkEntryController = {
     } catch (error) {
       return next(error)
     }
+  },
+
+  async deleteCheckEntry (req, res, next) {
+    const {
+      user: { _id: userId },
+      params: { id: checkEntryId }
+    } = req
+
+    try {
+      const checkEntry = await checkEntryServices.deleteCheckEntry({ checkEntryId }, { callerId: userId })
+
+      return res.status(OK).send(checkEntry)
+    } catch (error) {
+      return next(error)
+    }
   }
 }
