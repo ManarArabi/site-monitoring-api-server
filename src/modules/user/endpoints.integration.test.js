@@ -34,7 +34,7 @@ describe('User endpoints integration tests', () => {
       expect(user).toEqual({ username: payload.username, email: payload.email })
 
       const { exp, iat, ...tokenPayload } = jwt.decode(token)
-      expect(tokenPayload).toEqual(payload)
+      expect(tokenPayload).toEqual({ username: payload.username, email: payload.email })
     })
 
     it('It returns bad request if the request body is not valid', async () => {
