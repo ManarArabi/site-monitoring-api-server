@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt'
 import httpStatus from 'http-status'
 import { isNil } from 'ramda'
+import randtoken from 'rand-token'
 import HttpError from '../../common/HttpError.js'
+import { emailVerificationServices } from '../../common/services/email-verification.js'
 
 import { generateJwt } from './helpers.js'
 import { Users } from './model/index.js'
@@ -14,23 +16,21 @@ export const userServices = {
     password,
     email
   }) {
+    const verificationToken = randtoken.generate(16)
+
     const user = new Users({
       username,
       password,
-      email
+      email,
+      verificationToken
     })
 
-    const jwt = generateJwt({
-      data: {
-        username,
-        password,
-        email
-      }
-    })
-
+    const jwt = generateJwt({ data: { username, email } })
     user.jwt = jwt
 
     await user.save()
+
+    emailVerificationServices.sendVerifyEmail({ email, verificationToken })
 
     return { username: user.username, email: user.email, _id: user._id, jwt }
   },

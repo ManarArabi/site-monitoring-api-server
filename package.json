@@ -18,7 +18,9 @@
     "joi": "^17.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.8",
+    "nodemailer": "^6.7.2",
     "ramda": "^0.28.0",
+    "rand-token": "^1.0.1",
     "swagger-ui-express": "^4.3.0"
   },
   "engines": {
