@@ -10,14 +10,14 @@ export const checkEntryValidation = {
       protocol: Joi.string().valid(...INTERNET_PROTOCOLS).required(),
       path: Joi.string(),
       port: Joi.number().min(0),
-      timeout: Joi.number().default(5).min(0),
-      interval: Joi.number().default(10).min(0),
-      threshold: Joi.number().default(1).min(0),
+      timeout: Joi.number().default(5).min(1),
+      interval: Joi.number().default(10).min(1).max(1440),
+      threshold: Joi.number().default(1).min(1),
       authentication: {
         username: Joi.string(),
         password: Joi.string()
       },
-      httpHeaders: Joi.array().items(Joi.object()),
+      httpHeaders: Joi.object(),
       assert: { statusCode: Joi.number() },
 
       tags: Joi.array().items(Joi.string()),
@@ -37,14 +37,14 @@ export const checkEntryValidation = {
       protocol: Joi.string().valid(...INTERNET_PROTOCOLS),
       path: Joi.string(),
       port: Joi.number().min(0),
-      timeout: Joi.number().default(5).min(0),
-      interval: Joi.number().default(10).min(0),
-      threshold: Joi.number().default(1).min(0),
+      timeout: Joi.number().default(5).min(1),
+      interval: Joi.number().default(10).min(1).max(1440),
+      threshold: Joi.number().default(1).min(1),
       authentication: {
         username: Joi.string(),
         password: Joi.string()
       },
-      httpHeaders: Joi.array().items(Joi.object()),
+      httpHeaders: Joi.object(),
       assert: { statusCode: Joi.number() },
 
       tags: Joi.array().items(Joi.string()),

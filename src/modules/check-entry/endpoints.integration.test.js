@@ -49,11 +49,9 @@ describe('Check Entry endpoints integration tests', () => {
         path: '/here',
         port: 5000,
         timeout: 10,
-        httpHeaders: [
-          {
-            'cache-control': 'no-cache'
-          }
-        ],
+        httpHeaders: {
+          'cache-control': 'no-cache'
+        },
         assert: {
           statusCode: 200
         },
@@ -97,11 +95,9 @@ describe('Check Entry endpoints integration tests', () => {
         path: '/here',
         port: 5000,
         timeout: 10,
-        httpHeaders: [
-          {
-            'cache-control': 'no-cache'
-          }
-        ],
+        httpHeaders: {
+          'cache-control': 'no-cache'
+        },
         assert: {
           statusCode: 200
         },
@@ -162,11 +158,9 @@ describe('Check Entry endpoints integration tests', () => {
         path: '/here',
         port: 5000,
         timeout: 10,
-        httpHeaders: [
-          {
-            'cache-control': 'no-cache'
-          }
-        ],
+        httpHeaders: {
+          'cache-control': 'no-cache'
+        },
         assert: {
           statusCode: 200
         },

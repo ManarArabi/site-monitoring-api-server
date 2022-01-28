@@ -48,7 +48,8 @@ export const checkEntrySchema = new mongoose.Schema({
   interval: {
     type: Number,
     required: true,
-    min: 0,
+    min: 1,
+    max: 1440,
     default: 10
   },
 

@@ -16,7 +16,7 @@ export const checkEntryServices = {
     interval = 10,
     threshold = 1,
     authentication: { username, password } = {},
-    httpHeaders = [],
+    httpHeaders = {},
     assert: { statusCode },
     tags = [],
     ignoreSSL,
@@ -41,7 +41,7 @@ export const checkEntryServices = {
     if (!isNil(password)) { checkEntry.authentication.password = password }
     if (!isNil(statusCode)) { checkEntry.assert.statusCode = statusCode }
     if (!isNil(ignoreSSL)) { checkEntry.ignoreSSL = ignoreSSL }
-    if (!isEmpty(httpHeaders)) { checkEntry.httpHeaders = httpHeaders }
+    if (!isNil(httpHeaders)) { checkEntry.httpHeaders = httpHeaders }
     if (!isEmpty(tags)) { checkEntry.tags = tags }
 
     checkEntry = await CheckEntries.create(checkEntry)
