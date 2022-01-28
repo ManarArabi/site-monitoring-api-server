@@ -4,6 +4,7 @@ import request from 'supertest'
 import jwt from 'jsonwebtoken'
 import app from '../../app'
 import { Users } from './model'
+import { emailVerificationServices } from '../../common/services/email-verification'
 
 const { BAD_REQUEST, CREATED, OK, NOT_FOUND, UNAUTHORIZED } = httpStatus
 
@@ -17,6 +18,10 @@ describe('User endpoints integration tests', () => {
   })
 
   describe('POST /users/sign-up', () => {
+    beforeAll(async () => {
+      emailVerificationServices.sendVerifyEmail = jest.fn()
+    })
+
     it('It creates a user and generating jwt successfully', async () => {
       const payload = {
         username: 'test',
@@ -35,6 +40,8 @@ describe('User endpoints integration tests', () => {
 
       const { exp, iat, ...tokenPayload } = jwt.decode(token)
       expect(tokenPayload).toEqual({ username: payload.username, email: payload.email })
+
+      expect(emailVerificationServices.sendVerifyEmail).toBeCalled()
     })
 
     it('It returns bad request if the request body is not valid', async () => {

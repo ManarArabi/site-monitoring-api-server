@@ -2,7 +2,7 @@ import Joi from 'joi'
 
 export const miscValidation = {
   verifyEmail: {
-    query: {
+    url: {
       token: Joi.string().required()
     }
   }

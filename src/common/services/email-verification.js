@@ -10,7 +10,7 @@ export const emailVerificationServices = {
   async sendVerifyEmail ({ email, verificationToken }) {
     const port = process.env.PORT || 3000
 
-    const serverTokenUrl = `${process.env.APP_URL}:${port}?token=${verificationToken}`
+    const serverTokenUrl = `${process.env.APP_URL}:${port}/verify/${verificationToken}`
 
     await sendEmailServices.sendEmail({
       to: email,

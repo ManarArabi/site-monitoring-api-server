@@ -6,7 +6,7 @@ const { OK } = httpStatus
 export const miscController = {
   async verifyEmailToken (req, res, next) {
     const {
-      query: { token: verificationToken }
+      params: { token: verificationToken }
     } = req
 
     try {

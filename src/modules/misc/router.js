@@ -6,7 +6,7 @@ import { miscValidation } from './validation.js'
 const router = Router()
 
 router.get(
-  '/',
+  '/verify/:token',
   validateSchema(miscValidation.verifyEmail),
   miscController.verifyEmailToken
 )
