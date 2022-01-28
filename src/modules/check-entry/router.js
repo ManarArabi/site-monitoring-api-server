@@ -13,4 +13,11 @@ router.post(
   checkEntryController.createCheckEntry
 )
 
+router.patch(
+  '/:id',
+  authenticate,
+  validateSchema(checkEntryValidation.updateCheckEntry),
+  checkEntryController.updateCheckEntry
+)
+
 export default router

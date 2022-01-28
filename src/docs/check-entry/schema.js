@@ -39,3 +39,15 @@ export const createCheckEntryResponseBodySchema = {
     userId: { type: 'string' }
   }
 }
+
+export const updateCheckEntryRequestBodySchema = checkEntrySchema
+
+export const updateCheckEntryResponseBodySchema = {
+  type: 'object',
+  properties: {
+    ...checkEntrySchema.properties,
+    _id: { type: 'string' },
+    webhook: { type: 'string' },
+    userId: { type: 'string' }
+  }
+}

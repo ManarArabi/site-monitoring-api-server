@@ -24,5 +24,32 @@ export const checkEntryValidation = {
 
       ignoreSSL: Joi.boolean()
     }
+  },
+
+  updateCheckEntry: {
+    url: {
+      id: Joi.string().required()
+    },
+
+    body: {
+      name: Joi.string(),
+      url: Joi.string().regex(URL_REGEX),
+      protocol: Joi.string().valid(...INTERNET_PROTOCOLS),
+      path: Joi.string(),
+      port: Joi.number().min(0),
+      timeout: Joi.number().default(5).min(0),
+      interval: Joi.number().default(10).min(0),
+      threshold: Joi.number().default(1).min(0),
+      authentication: {
+        username: Joi.string(),
+        password: Joi.string()
+      },
+      httpHeaders: Joi.array().items(Joi.object()),
+      assert: { statusCode: Joi.number() },
+
+      tags: Joi.array().items(Joi.string()),
+
+      ignoreSSL: Joi.boolean()
+    }
   }
 }
