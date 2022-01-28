@@ -19,7 +19,8 @@ export const checkEntryServices = {
     httpHeaders = [],
     assert: { statusCode },
     tags = [],
-    ignoreSSL
+    ignoreSSL,
+    active
   }, { callerId }) {
     let checkEntry = {
       name,
@@ -30,7 +31,8 @@ export const checkEntryServices = {
       threshold,
       authentication: {},
       assert: {},
-      userId: callerId
+      userId: callerId,
+      active
     }
 
     if (!isNil(path)) { checkEntry.path = path }
@@ -61,7 +63,8 @@ export const checkEntryServices = {
     httpHeaders,
     assert: { statusCode } = {},
     tags,
-    ignoreSSL
+    ignoreSSL,
+    active
   }, { callerId }) {
     const checkEntry = await CheckEntries.findOne({ _id: checkEntryId, userId: callerId })
 
@@ -92,6 +95,7 @@ export const checkEntryServices = {
     }
     if (!isNil(tags)) { updateQuery.tags = tags }
     if (!isNil(ignoreSSL)) { updateQuery.ignoreSSL = ignoreSSL }
+    if (!isNil(active)) { updateQuery.active = active }
 
     await CheckEntries.updateOne({ _id: checkEntryId }, updateQuery)
 

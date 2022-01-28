@@ -24,7 +24,8 @@ const checkEntrySchema = {
     tags: { type: 'array', items: { type: 'string' } },
     interval: { type: 'number', description: 'In Minutes' },
     threshold: { type: 'number' },
-    ignoreSSL: { type: 'boolean' }
+    ignoreSSL: { type: 'boolean' },
+    active: { type: 'boolean' }
   }
 }
 

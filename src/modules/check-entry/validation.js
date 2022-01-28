@@ -49,7 +49,8 @@ export const checkEntryValidation = {
 
       tags: Joi.array().items(Joi.string()),
 
-      ignoreSSL: Joi.boolean()
+      ignoreSSL: Joi.boolean(),
+      active: Joi.boolean()
     }
   }
 }
