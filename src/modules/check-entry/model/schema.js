@@ -91,6 +91,12 @@ export const checkEntrySchema = new mongoose.Schema({
   //  A flag to ignore broken/expired SSL certificates in case of using the HTTPS protocol
   ignoreSSL: {
     type: Boolean
+  },
+
+  active: {
+    type: Boolean,
+    default: false,
+    required: true
   }
 })
 

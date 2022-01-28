@@ -1,6 +1,8 @@
 import httpStatus from 'http-status'
 import mongoose from 'mongoose'
 import request from 'supertest'
+import randtoken from 'rand-token'
+
 import app from '../../app'
 import { generateJwt } from '../user/helpers'
 import { Users } from '../user/model'
@@ -11,9 +13,11 @@ const { BAD_REQUEST, CREATED, OK } = httpStatus
 describe('Check Entry endpoints integration tests', () => {
   let userJwt
   let user
+  let dbConnection
 
   beforeAll(async () => {
-    await mongoose.connect(process.env.MONGO_TEST_URL)
+    const randomTestDbUrl = process.env.MONGO_TEST_URL + randtoken.generate(16)
+    dbConnection = await mongoose.connect(randomTestDbUrl)
 
     user = new Users({
       email: 'email@test.com',
@@ -30,7 +34,7 @@ describe('Check Entry endpoints integration tests', () => {
   })
 
   afterAll(async () => {
-    await mongoose.connection.db.dropDatabase()
+    await dbConnection.connection.dropDatabase()
 
     return mongoose.disconnect()
   })
@@ -68,7 +72,7 @@ describe('Check Entry endpoints integration tests', () => {
 
       expect(status).toBe(CREATED)
 
-      const { _id, __v, userId, ...rest } = body
+      const { _id, __v, userId, active, ...rest } = body
       expect(rest).toEqual(payload)
     })
 

@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import mongoose from 'mongoose'
 import request from 'supertest'
 import jwt from 'jsonwebtoken'
+import randtoken from 'rand-token'
 import app from '../../app'
 import { Users } from './model'
 import { emailVerificationServices } from '../../common/services/email-verification'
@@ -9,10 +10,15 @@ import { emailVerificationServices } from '../../common/services/email-verificat
 const { BAD_REQUEST, CREATED, OK, NOT_FOUND, UNAUTHORIZED } = httpStatus
 
 describe('User endpoints integration tests', () => {
-  beforeAll(async () => mongoose.connect(process.env.MONGO_TEST_URL))
+  let dbConnection
+
+  beforeAll(async () => {
+    const randomTestDbUrl = process.env.MONGO_TEST_URL + randtoken.generate(16)
+    dbConnection = await mongoose.connect(randomTestDbUrl)
+  })
 
   afterAll(async () => {
-    await mongoose.connection.db.dropDatabase()
+    await dbConnection.connection.dropDatabase()
 
     return mongoose.disconnect()
   })
