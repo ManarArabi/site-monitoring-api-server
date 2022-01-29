@@ -5,5 +5,5 @@ export const convertMinutesToCronJobTime = minutes => {
   const minutesReminder = minutes % 60
   const cronMinutes = minutesReminder === 0 ? '*' : `*/${minutesReminder}`
 
-  return `0 ${cronMinutes} ${cronHours} * * *`
+  return `${cronMinutes} ${cronHours} * * *`
 }
