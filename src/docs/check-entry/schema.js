@@ -21,6 +21,7 @@ const checkEntrySchema = {
         statusCode: { type: 'number ' }
       }
     },
+    webhook: { type: 'string' },
     tags: { type: 'array', items: { type: 'string' } },
     interval: { type: 'number', description: 'In Minutes' },
     threshold: { type: 'number' },

@@ -1,4 +1,4 @@
-import { getUrlIsDownAlert, getUrlIsDownHtmlAlert, getUrlIsUpAlert, getUrlIsUpHtmlAlert } from '../../common/services/alerts/helpers.js'
+import { getUrlIsDownAlert, getUrlIsUpAlert } from '../../common/services/alerts/helpers.js'
 import { alertServices } from '../../common/services/alerts/index.js'
 import { CheckEntryLogs } from './model/index.js'
 
@@ -28,18 +28,16 @@ export const checkEntryLogServices = {
       isActive &&
       await alertServices.shouldSendSiteIsUpAlert({ checkEntryId, checkEntryLogId: checkEntryLog._id, isActive })
     ) {
-      const html = getUrlIsUpHtmlAlert({ url, checkEntryId })
-      const message = getUrlIsUpAlert({ url, checkEntryId })
+      const messages = getUrlIsUpAlert({ url, checkEntryId })
 
-      alertServices.sendAlert({ html, message, userId, checkEntryId })
+      alertServices.sendAlert({ ...messages, userId, checkEntryId })
     } else if (
       !isActive &&
       await alertServices.shouldSendSiteIsDownAlert({ checkEntryId, checkEntryLogId: checkEntryLog._id, isActive })
     ) {
-      const html = getUrlIsDownHtmlAlert({ url, checkEntryId })
-      const message = getUrlIsDownAlert({ url, checkEntryId })
+      const messages = getUrlIsDownAlert({ url, checkEntryId })
 
-      alertServices.sendAlert({ html, message, userId, checkEntryId })
+      alertServices.sendAlert({ ...messages, userId, checkEntryId })
     }
   }
 }

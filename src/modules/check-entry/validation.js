@@ -17,6 +17,7 @@ export const checkEntryValidation = {
         username: Joi.string(),
         password: Joi.string()
       },
+      webhook: Joi.string().regex(URL_REGEX),
       httpHeaders: Joi.object(),
       assert: { statusCode: Joi.number() },
 
@@ -47,6 +48,7 @@ export const checkEntryValidation = {
       timeout: Joi.number().default(5).min(1),
       interval: Joi.number().default(10).min(1).max(1440),
       threshold: Joi.number().default(1).min(1),
+      webhook: Joi.string().regex(URL_REGEX),
       authentication: {
         username: Joi.string(),
         password: Joi.string()

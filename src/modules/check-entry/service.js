@@ -21,7 +21,8 @@ export const checkEntryServices = {
     assert: { statusCode },
     tags = [],
     ignoreSSL,
-    active = true
+    active = true,
+    webhook
   }, { callerId }) {
     let checkEntry = {
       name,
@@ -44,6 +45,7 @@ export const checkEntryServices = {
     if (!isNil(statusCode)) { checkEntry.assert.statusCode = statusCode }
     if (!isNil(ignoreSSL)) { checkEntry.ignoreSSL = ignoreSSL }
     if (!isNil(httpHeaders)) { checkEntry.httpHeaders = httpHeaders }
+    if (!isNil(webhook)) { checkEntry.webhook = webhook }
     if (!isEmpty(tags)) { checkEntry.tags = tags }
 
     checkEntry = await CheckEntries.create(checkEntry)
@@ -74,7 +76,8 @@ export const checkEntryServices = {
     assert: { statusCode } = {},
     tags,
     ignoreSSL,
-    active
+    active,
+    webhook
   }, { callerId }) {
     const checkEntry = await CheckEntries.findOne({ _id: checkEntryId, userId: callerId })
 
@@ -90,6 +93,7 @@ export const checkEntryServices = {
     if (!isNil(timeout)) { checkEntry.timeout = timeout }
     if (!isNil(interval)) { checkEntry.interval = interval }
     if (!isNil(threshold)) { checkEntry.threshold = threshold }
+    if (!isNil(webhook)) { checkEntry.webhook = webhook }
     if (!isNil(username)) {
       checkEntry.authentication = { ...checkEntry.authentication, username }
     }

@@ -53,6 +53,7 @@ export const alertServices = {
       message,
       checkEntryId,
       webhook,
+      url,
       subject: `About ${url} monitoring - from ${process.env.APP_URL}`,
       to: email
     }
