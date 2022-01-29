@@ -3,7 +3,7 @@ import { isNil } from 'ramda'
 import Promise from 'bluebird'
 import { globalScheduledMonitoringTasksUserMap } from '../../jobs.js'
 import { convertMinutesToCronJobTime } from '../helpers/cron-job-time.js'
-import { pollUrlServices } from './poll-url-services.js'
+import { pollUrlServices } from './poll-url.js'
 import { CheckEntries } from '../../modules/check-entry/model/index.js'
 
 export const pollUrlTaskSchedularServices = {

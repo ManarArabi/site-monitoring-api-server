@@ -1,4 +1,4 @@
-import { alertServices } from '../../common/services/alert-services.js'
+import { alertServices } from '../../common/services/alerts.js'
 import { CheckEntryLogs } from './model/index.js'
 
 export const checkEntryLogServices = {

@@ -6,7 +6,7 @@ import { Users } from '../../modules/user/model'
 import { CheckEntries } from '../../modules/check-entry/model'
 import { times } from 'ramda'
 import { CheckEntryLogs } from '../../modules/check-entry-log/model'
-import { alertServices } from './alert-services'
+import { alertServices } from './alerts'
 
 dotenv.config()
 
