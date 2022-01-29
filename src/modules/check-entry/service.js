@@ -51,6 +51,14 @@ export const checkEntryServices = {
     return checkEntry
   },
 
+  async getCheckEntries ({ tags = [] }, { callerId }) {
+    const getCheckEntriesQuery = { userId: callerId }
+
+    if (!isEmpty(tags)) { getCheckEntriesQuery.tags = { $in: tags } }
+
+    return CheckEntries.find(getCheckEntriesQuery).lean()
+  },
+
   async updateCheckEntry ({
     checkEntryId,
     name,

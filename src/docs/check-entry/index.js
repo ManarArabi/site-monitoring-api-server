@@ -1,6 +1,12 @@
 import { checkEntriesTag } from '../tags.js'
-import { checkEntryIdParameter } from './parameters.js'
-import { createCheckEntryRequestBodySchema, createCheckEntryResponseBodySchema, updateCheckEntryRequestBodySchema, updateCheckEntryResponseBodySchema } from './schema.js'
+import { checkEntryIdParameter, tagsParameter } from './parameters.js'
+import {
+  createCheckEntryRequestBodySchema,
+  createCheckEntryResponseBodySchema,
+  getCheckEntryResponseSchema,
+  updateCheckEntryRequestBodySchema,
+  updateCheckEntryResponseBodySchema
+} from './schema.js'
 
 export const checkEntryEndpointsDocumentation = {
   '/check-entries/': {
@@ -35,7 +41,27 @@ export const checkEntryEndpointsDocumentation = {
           description: 'Internal server error'
         }
       }
+    },
 
+    get: {
+      tags: [checkEntriesTag.name],
+      description: 'Gets user check entries, require authentication',
+
+      parameters: [tagsParameter],
+
+      responses: {
+        200: {
+          content: {
+            'application/json': {
+              schema: getCheckEntryResponseSchema
+            }
+          }
+        },
+
+        500: {
+          description: 'Internal server error'
+        }
+      }
     }
   },
 

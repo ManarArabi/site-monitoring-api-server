@@ -41,6 +41,11 @@ export const createCheckEntryResponseBodySchema = {
   }
 }
 
+export const getCheckEntryResponseSchema = {
+  type: 'array',
+  items: checkEntrySchema
+}
+
 export const updateCheckEntryRequestBodySchema = checkEntrySchema
 
 export const updateCheckEntryResponseBodySchema = {

@@ -84,6 +84,42 @@ describe('Check Entry endpoints integration tests', () => {
     })
   })
 
+  describe('GET /check-entries/', () => {
+    let expectedCheckEntry
+
+    beforeAll(async () => {
+      expectedCheckEntry = new CheckEntries({
+        name: 'here',
+        url: 'www.testTags',
+        protocol: 'http',
+        path: '/here',
+        port: 5000,
+        timeout: 10,
+        httpHeaders: { 'cache-control': 'no-cache' },
+        assert: { statusCode: 200 },
+        tags: ['tag1'],
+        interval: 5,
+        threshold: 3,
+        ignoreSSL: true,
+        userId: user._id
+      })
+
+      await expectedCheckEntry.save()
+    })
+
+    it('It gets user check entries by tag successfully', async () => {
+      const tags = ['tag1']
+      const { status, body: [checkEntry] } = await request(app)
+        .get('/check-entries/')
+        .query({ tags })
+        .set('Authorization', `JWT ${userJwt}`)
+
+      expect(status).toBe(OK)
+
+      expect(String(checkEntry._id)).toBe(String(expectedCheckEntry._id))
+    })
+  })
+
   describe('PATCH /check-entries/:id', () => {
     let checkEntryId
 

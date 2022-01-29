@@ -13,6 +13,13 @@ router.post(
   checkEntryController.createCheckEntry
 )
 
+router.get(
+  '/',
+  authenticate,
+  validateSchema(checkEntryValidation.getCheckEntries),
+  checkEntryController.getCheckEntries
+)
+
 router.patch(
   '/:id',
   authenticate,

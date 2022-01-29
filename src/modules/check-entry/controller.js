@@ -19,6 +19,21 @@ export const checkEntryController = {
     }
   },
 
+  async getCheckEntries (req, res, next) {
+    const {
+      user: { _id: userId },
+      query: { tags }
+    } = req
+
+    try {
+      const checkEntries = await checkEntryServices.getCheckEntries({ tags }, { callerId: userId })
+
+      return res.status(OK).send(checkEntries)
+    } catch (error) {
+      return next(error)
+    }
+  },
+
   async updateCheckEntry (req, res, next) {
     const {
       body,

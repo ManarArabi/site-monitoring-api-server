@@ -27,6 +27,12 @@ export const checkEntryValidation = {
     }
   },
 
+  getCheckEntries: {
+    query: {
+      tags: Joi.array().items(Joi.string()).min(1).single()
+    }
+  },
+
   updateCheckEntry: {
     url: {
       id: Joi.string().required()
