@@ -22,7 +22,7 @@ export const sendEmailServices = {
     try {
       await transporter.sendMail(mailOptions)
     } catch (error) {
-      console.log(`Failed to send an email with subject: ${subject} to: ${to}`)
+      console.error(`Failed to send an email with subject: ${subject} to: ${to}`)
       console.error(error)
     }
   }
