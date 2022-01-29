@@ -1,3 +1,4 @@
+import { alertServices } from '../../common/services/alert-services.js'
 import { CheckEntryLogs } from './model/index.js'
 
 export const checkEntryLogServices = {
@@ -21,5 +22,19 @@ export const checkEntryLogServices = {
     })
 
     await checkEntryLog.save()
+
+    if (
+      isActive &&
+      await alertServices.shouldSendSiteIsUpAlert({ checkEntryId, checkEntryLogId: checkEntryLog._id, isActive })
+    ) {
+      console.log('Should send up alert')
+      // TODO implement send up alert
+    } else if (
+      !isActive &&
+      await alertServices.shouldSendSiteIsDownAlert({ checkEntryId, checkEntryLogId: checkEntryLog._id, isActive })
+    ) {
+      console.log('Should send down alert')
+      // TODO implement send down alert
+    }
   }
 }
