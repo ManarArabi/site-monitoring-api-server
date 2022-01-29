@@ -84,6 +84,8 @@ export const pollUrlServices = {
         responseTime = startDate - new Date(date).valueOf()
         isActive = responseStatusCode === successfulStatusCode
 
+        request.end()
+
         await checkEntryLogServices.createCheckEntryLog({
           isActive,
           responseTime,
@@ -102,6 +104,8 @@ export const pollUrlServices = {
       isActive = false
       console.error(`There is an error with request: ${protocol}://${url}${path}, ${error}`)
 
+      request.destroy()
+
       await checkEntryLogServices.createCheckEntryLog({
         isActive,
         responseTime,
@@ -117,17 +121,9 @@ export const pollUrlServices = {
       responseStatusCode = INTERNAL_SERVER_ERROR
       responseTime = timeout
       isActive = false
-      request.end()
 
-      await checkEntryLogServices.createCheckEntryLog({
-        isActive,
-        responseTime,
-        checkEntryId,
-        interval,
-        userId,
-        url,
-        tags
-      })
+      console.log('------ request timeout ------')
+      request.destroy()
     })
   }
 }
