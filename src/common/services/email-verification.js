@@ -15,7 +15,7 @@ export const emailVerificationServices = {
     await sendEmailServices.sendEmail({
       to: email,
       subject: `Email verification - ${process.env.APP_URL}`,
-      message: `
+      html: `
         <p>Your email needs verification, kindly use this link: ${serverTokenUrl} to verify your email address</p>
       `
     })

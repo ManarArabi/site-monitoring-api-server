@@ -1,5 +1,8 @@
-import { CheckEntryLogs } from '../../modules/check-entry-log/model/index.js'
-import { CheckEntries } from '../../modules/check-entry/model/index.js'
+import Promise from 'bluebird'
+import { CheckEntryLogs } from '../../../modules/check-entry-log/model/index.js'
+import { CheckEntries } from '../../../modules/check-entry/model/index.js'
+import { Users } from '../../../modules/user/model/index.js'
+import { sendAlertServices } from './helpers.js'
 
 export const alertServices = {
   /**
@@ -29,6 +32,34 @@ export const alertServices = {
     const isAllLogsDown = previousCheckEntryLogs.every(({ isActive }) => isActive === false)
 
     return isAllLogsDown && !isActive
-  }
+  },
 
+  async sendAlert ({ html, message, userId, checkEntryId }) {
+    const [
+      { webhook, url },
+      { email }
+    ] = await Promise.all([
+      CheckEntries
+        .findOne({ _id: checkEntryId }, { webhook: 1, url: 1 })
+        .lean(),
+
+      Users.findOne({ _id: userId }, { email: 1 }).lean()
+    ])
+
+    const sendAlertServicesArray = Object.values(sendAlertServices).flat()
+
+    const alertGeneralFunctionParams = {
+      html,
+      message,
+      checkEntryId,
+      webhook,
+      subject: `About ${url} monitoring - from ${process.env.APP_URL}`,
+      to: email
+    }
+
+    await Promise.map(
+      sendAlertServicesArray,
+      async sendAlertService => await sendAlertService(alertGeneralFunctionParams)
+    )
+  }
 }

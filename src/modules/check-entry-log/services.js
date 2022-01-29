@@ -1,4 +1,5 @@
-import { alertServices } from '../../common/services/alerts.js'
+import { getUrlIsDownAlert, getUrlIsDownHtmlAlert, getUrlIsUpAlert, getUrlIsUpHtmlAlert } from '../../common/services/alerts/helpers.js'
+import { alertServices } from '../../common/services/alerts/index.js'
 import { CheckEntryLogs } from './model/index.js'
 
 export const checkEntryLogServices = {
@@ -27,14 +28,18 @@ export const checkEntryLogServices = {
       isActive &&
       await alertServices.shouldSendSiteIsUpAlert({ checkEntryId, checkEntryLogId: checkEntryLog._id, isActive })
     ) {
-      console.log('Should send up alert')
-      // TODO implement send up alert
+      const html = getUrlIsUpHtmlAlert({ url, checkEntryId })
+      const message = getUrlIsUpAlert({ url, checkEntryId })
+
+      alertServices.sendAlert({ html, message, userId, checkEntryId })
     } else if (
       !isActive &&
       await alertServices.shouldSendSiteIsDownAlert({ checkEntryId, checkEntryLogId: checkEntryLog._id, isActive })
     ) {
-      console.log('Should send down alert')
-      // TODO implement send down alert
+      const html = getUrlIsDownHtmlAlert({ url, checkEntryId })
+      const message = getUrlIsDownAlert({ url, checkEntryId })
+
+      alertServices.sendAlert({ html, message, userId, checkEntryId })
     }
   }
 }

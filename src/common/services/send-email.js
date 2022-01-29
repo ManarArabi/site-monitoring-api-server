@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 import { GMAIL_MAIL_SERVICE } from '../constants/email.js'
 
 export const sendEmailServices = {
-  async sendEmail ({ subject, message, to }) {
+  async sendEmail ({ subject, html, to }) {
     const transporter = nodemailer.createTransport({
       name: process.env.APP_URL,
       service: GMAIL_MAIL_SERVICE,
@@ -16,7 +16,7 @@ export const sendEmailServices = {
       from: process.env.APP_EMAIL,
       to,
       subject,
-      html: message
+      html
     }
 
     try {
