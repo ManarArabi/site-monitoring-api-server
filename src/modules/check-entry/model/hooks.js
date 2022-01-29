@@ -13,7 +13,8 @@ export const scheduleUrlPollTask = function () {
     httpHeaders,
     assert: { statusCode },
     authentication: { username, password },
-    active = true
+    active = true,
+    ignoreSSL
   } = this
 
   pollUrlTaskSchedularServices.schedulePollUrlTask({
@@ -28,6 +29,7 @@ export const scheduleUrlPollTask = function () {
     port,
     interval,
     userId,
-    active
+    active,
+    ignoreSSL
   })
 }

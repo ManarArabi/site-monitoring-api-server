@@ -1,8 +1,10 @@
 import { CronJob } from 'cron'
 import { isNil } from 'ramda'
+import Promise from 'bluebird'
 import { globalScheduledMonitoringTasksUserMap } from '../../jobs.js'
 import { convertMinutesToCronJobTime } from '../helpers/cron-job-time.js'
 import { pollUrlServices } from './poll-url-services.js'
+import { CheckEntries } from '../../modules/check-entry/model/index.js'
 
 export const pollUrlTaskSchedularServices = {
   async schedulePollUrlTask ({
@@ -17,6 +19,7 @@ export const pollUrlTaskSchedularServices = {
     interval,
     checkEntryId,
     userId,
+    ignoreSSL,
     active
   }) {
     const oldTask = globalScheduledMonitoringTasksUserMap[`userId:${userId}-checkEntryId:${checkEntryId}`]
@@ -38,7 +41,8 @@ export const pollUrlTaskSchedularServices = {
           assert: { statusCode },
           authentication: { username, password },
           port,
-          checkEntryId
+          checkEntryId,
+          ignoreSSL
         }),
         undefined,
         true,
@@ -47,5 +51,44 @@ export const pollUrlTaskSchedularServices = {
 
       globalScheduledMonitoringTasksUserMap[`userId:${userId}-checkEntryId:${checkEntryId}`] = scheduledTask
     }
+  },
+
+  async startScheduledCheckEntries () {
+    const savedCheckEntries = await CheckEntries.find({ active: true }).lean()
+
+    console.log('Pre-saved check entries scheduled job are now running')
+
+    await Promise.map(
+      savedCheckEntries,
+      async ({
+        url,
+        path,
+        protocol,
+        timeout,
+        httpHeaders = {},
+        authentication = {},
+        assert = {},
+        port,
+        interval,
+        _id: checkEntryId,
+        userId,
+        ignoreSSL,
+        active
+      }) => await this.schedulePollUrlTask({
+        url,
+        path,
+        protocol,
+        timeout,
+        httpHeaders,
+        authentication,
+        assert,
+        port,
+        interval,
+        checkEntryId,
+        userId,
+        ignoreSSL,
+        active
+      })
+    )
   }
 }

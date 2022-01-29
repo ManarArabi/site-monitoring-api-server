@@ -14,7 +14,8 @@ export const pollUrlServices = {
     timeout,
     httpHeaders,
     authentication: { username, password },
-    port
+    port,
+    ignoreSSL
   }, { requestCallback }) {
     const requestOptions = {
       hostname: url,
@@ -38,7 +39,7 @@ export const pollUrlServices = {
     if (protocol === HTTPS_PROTOCOL) {
       return https.get(requestOptions, requestCallback)
     } else if (protocol === HTTP_PROTOCOL) {
-      return http.get(requestOptions, requestCallback)
+      return http.get({ ...requestOptions, strictSSL: !ignoreSSL }, requestCallback)
     }
   },
 
@@ -51,7 +52,8 @@ export const pollUrlServices = {
     assert: { statusCode: successfulStatusCode },
     httpHeaders,
     authentication: { username, password },
-    port
+    port,
+    ignoreSSL
   }) {
     console.log(`Cron job started with checkEntryId: ${checkEntryId}`)
 
@@ -68,7 +70,8 @@ export const pollUrlServices = {
       timeout,
       httpHeaders,
       authentication: { username, password },
-      port
+      port,
+      ignoreSSL
     }, {
       requestCallback: ({ statusCode, headers: { date } }) => {
         responseStatusCode = statusCode
