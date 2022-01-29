@@ -1,6 +1,6 @@
 import { pollUrlTaskSchedularServices } from '../../../common/services/poll-url-task-schedular.js'
 
-export const scheduleUrlPollTask = function () {
+export const scheduleUrlPollTask = async function () {
   const {
     _id: checkEntryId,
     userId,
