@@ -2,6 +2,8 @@ import httpStatus from 'http-status'
 import https from 'https'
 import http from 'http'
 import { isNil } from 'ramda'
+import { CheckEntries } from '../../modules/check-entry/model/index.js'
+import { checkEntryLogServices } from '../../modules/check-entry-log/services.js'
 import { HTTPS_PROTOCOL, HTTP_PROTOCOL } from '../../modules/check-entry/constants.js'
 
 const { INTERNAL_SERVER_ERROR } = httpStatus
@@ -61,7 +63,11 @@ export const pollUrlServices = {
 
     let responseStatusCode
     let responseTime
-    let availability = false
+    let isActive = false
+
+    const {
+      userId, interval, tags
+    } = await CheckEntries.findOne({ _id: checkEntryId }, { userId: 1, interval: 1, tags: 1 }).lean()
 
     const request = await this.sendGetRequest({
       url,
@@ -73,27 +79,55 @@ export const pollUrlServices = {
       port,
       ignoreSSL
     }, {
-      requestCallback: ({ statusCode, headers: { date } }) => {
+      requestCallback: async ({ statusCode, headers: { date } }) => {
         responseStatusCode = statusCode
-        responseTime = startDate - date
-        availability = true
+        responseTime = startDate - new Date(date).valueOf()
+        isActive = responseStatusCode === successfulStatusCode
+
+        await checkEntryLogServices.createCheckEntryLog({
+          isActive,
+          responseTime,
+          checkEntryId,
+          interval,
+          userId,
+          url,
+          tags
+        })
       }
     })
 
-    request.on('error', error => {
+    request.on('error', async error => {
       responseStatusCode = INTERNAL_SERVER_ERROR
       responseTime = timeout
-      availability = false
+      isActive = false
       console.error(`There is an error with request: ${protocol}://${url}${path}, ${error}`)
+
+      await checkEntryLogServices.createCheckEntryLog({
+        isActive,
+        responseTime,
+        checkEntryId,
+        interval,
+        userId,
+        url,
+        tags
+      })
     })
 
-    request.on('timeout', () => {
+    request.on('timeout', async () => {
       responseStatusCode = INTERNAL_SERVER_ERROR
       responseTime = timeout
-      availability = false
+      isActive = false
       request.end()
-    })
 
-    // TODO check result and successfulStatusCode and log into logging model
+      await checkEntryLogServices.createCheckEntryLog({
+        isActive,
+        responseTime,
+        checkEntryId,
+        interval,
+        userId,
+        url,
+        tags
+      })
+    })
   }
 }
