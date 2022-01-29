@@ -1,50 +1,11 @@
 import httpStatus from 'http-status'
-import https from 'https'
-import http from 'http'
-import { isNil } from 'ramda'
 import { CheckEntries } from '../../modules/check-entry/model/index.js'
 import { checkEntryLogServices } from '../../modules/check-entry-log/services.js'
-import { HTTPS_PROTOCOL, HTTP_PROTOCOL } from '../../modules/check-entry/constants.js'
+import { sendRequests } from './requests.js'
 
 const { INTERNAL_SERVER_ERROR } = httpStatus
 
 export const pollUrlServices = {
-  async sendGetRequest ({
-    url,
-    path,
-    protocol,
-    timeout,
-    httpHeaders,
-    authentication: { username, password },
-    port,
-    ignoreSSL
-  }, { requestCallback }) {
-    const requestOptions = {
-      hostname: url,
-      timeout,
-      protocol: `${protocol}:`,
-      time: true
-    }
-
-    if (!isNil(port)) { requestOptions.port = port }
-    if (!isNil(path)) { requestOptions.path = path }
-    if (!isNil(httpHeaders)) { requestOptions.headers = httpHeaders }
-    if (!isNil(username) || !isNil(password)) {
-      let auth = ''
-
-      if (!isNil(username)) { auth += username }
-      if (!isNil(password)) { auth += `:${password}` }
-
-      requestOptions.auth = auth
-    }
-
-    if (protocol === HTTPS_PROTOCOL) {
-      return https.get(requestOptions, requestCallback)
-    } else if (protocol === HTTP_PROTOCOL) {
-      return http.get({ ...requestOptions, strictSSL: !ignoreSSL }, requestCallback)
-    }
-  },
-
   async pollUrlAndLogResults ({
     checkEntryId,
     url,
@@ -69,7 +30,7 @@ export const pollUrlServices = {
       userId, interval, tags
     } = await CheckEntries.findOne({ _id: checkEntryId }, { userId: 1, interval: 1, tags: 1 }).lean()
 
-    const request = await this.sendGetRequest({
+    const request = await sendRequests.sendGetRequest({
       url,
       path,
       protocol,
