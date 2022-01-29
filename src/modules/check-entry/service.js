@@ -1,4 +1,5 @@
 import httpStatus from 'http-status'
+import mongoose from 'mongoose'
 import { isEmpty, isNil } from 'ramda'
 import HttpError from '../../common/HttpError.js'
 import { CheckEntries } from './model/index.js'
@@ -20,7 +21,7 @@ export const checkEntryServices = {
     assert: { statusCode },
     tags = [],
     ignoreSSL,
-    active
+    active = true
   }, { callerId }) {
     let checkEntry = {
       name,
@@ -32,7 +33,8 @@ export const checkEntryServices = {
       authentication: {},
       assert: {},
       userId: callerId,
-      active
+      active,
+      _id: new mongoose.Types.ObjectId()
     }
 
     if (!isNil(path)) { checkEntry.path = path }
@@ -72,34 +74,32 @@ export const checkEntryServices = {
       throw new HttpError({ status: NOT_FOUND, message: 'There is no check entry linked to this id created by you' })
     }
 
-    const updateQuery = {}
-
-    if (!isNil(name)) { updateQuery.name = name }
-    if (!isNil(url)) { updateQuery.url = url }
-    if (!isNil(protocol)) { updateQuery.protocol = protocol }
-    if (!isNil(path)) { updateQuery.path = path }
-    if (!isNil(port)) { updateQuery.port = port }
-    if (!isNil(timeout)) { updateQuery.timeout = timeout }
-    if (!isNil(interval)) { updateQuery.interval = interval }
-    if (!isNil(threshold)) { updateQuery.threshold = threshold }
-    if (!isNil(username) || !isNil(password)) {
-      updateQuery.authentication = {}
-
-      if (!isNil(username)) { updateQuery.authentication.username = username }
-      if (!isNil(password)) { updateQuery.authentication.password = password }
+    if (!isNil(name)) { checkEntry.name = name }
+    if (!isNil(url)) { checkEntry.url = url }
+    if (!isNil(protocol)) { checkEntry.protocol = protocol }
+    if (!isNil(path)) { checkEntry.path = path }
+    if (!isNil(port)) { checkEntry.port = port }
+    if (!isNil(timeout)) { checkEntry.timeout = timeout }
+    if (!isNil(interval)) { checkEntry.interval = interval }
+    if (!isNil(threshold)) { checkEntry.threshold = threshold }
+    if (!isNil(username)) {
+      checkEntry.authentication = { ...checkEntry.authentication, username }
     }
-    if (!isNil(httpHeaders)) { updateQuery.httpHeaders = httpHeaders }
+    if (!isNil(password)) {
+      checkEntry.authentication = { ...checkEntry.authentication, password }
+    }
+    if (!isNil(httpHeaders)) { checkEntry.httpHeaders = httpHeaders }
     if (!isNil(statusCode)) {
-      updateQuery.assert = {}
-      updateQuery.assert.statusCode = statusCode
+      checkEntry.assert = {}
+      checkEntry.assert.statusCode = statusCode
     }
-    if (!isNil(tags)) { updateQuery.tags = tags }
-    if (!isNil(ignoreSSL)) { updateQuery.ignoreSSL = ignoreSSL }
-    if (!isNil(active)) { updateQuery.active = active }
+    if (!isNil(tags)) { checkEntry.tags = tags }
+    if (!isNil(ignoreSSL)) { checkEntry.ignoreSSL = ignoreSSL }
+    if (!isNil(active)) { checkEntry.active = active }
 
-    await CheckEntries.updateOne({ _id: checkEntryId }, updateQuery)
+    await checkEntry.save()
 
-    return CheckEntries.findOne({ _id: checkEntryId }).lean()
+    return checkEntry
   },
 
   async deleteCheckEntry ({ checkEntryId }, { callerId }) {
