@@ -1,7 +1,8 @@
 import mongoose from 'mongoose'
-import { scheduleUrlPollTask } from './hooks.js'
+import { deleteScheduledUrlPollTask, scheduleUrlPollTask } from './hooks.js'
 import { checkEntrySchema } from './schema.js'
 
-checkEntrySchema.pre('save', scheduleUrlPollTask)
+checkEntrySchema.post('save', scheduleUrlPollTask)
+checkEntrySchema.post('remove', deleteScheduledUrlPollTask)
 
 export const CheckEntries = mongoose.model('check-entries', checkEntrySchema)

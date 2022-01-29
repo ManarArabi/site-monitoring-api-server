@@ -109,6 +109,6 @@ export const checkEntryServices = {
       throw new HttpError({ status: NOT_FOUND, message: 'There is no check entry linked to this id created by you' })
     }
 
-    await CheckEntries.deleteOne({ _id: checkEntryId })
+    await checkEntry.remove()
   }
 }
