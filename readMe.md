@@ -8,11 +8,12 @@ The user can:
   - update url configuration
   - delete his subscription to certain url check
   - get his pre-entered url checks
+  - get availability report to check pre-entered check 
 
 The user will receive periodic email/Webhook alert updates when a pre-entered url is went down or up.
 
 ## Docs
-You can find swagger documentation [here](https://monitor-url-api.herokuapp.com/api-docs/#/)
+For more details, you can find swagger documentation [here](https://monitor-url-api.herokuapp.com/api-docs/#/)
 
 ## Restrictions
 - `Interval` between url checks shouldn't be more 1550 minute (24 hours)
