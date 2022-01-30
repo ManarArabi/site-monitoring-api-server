@@ -25,7 +25,6 @@ describe('Services tests', () => {
     })
 
     await user.save()
-    return user.save()
   })
 
   afterAll(async () => {

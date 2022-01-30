@@ -28,9 +28,6 @@ describe('Check Entry endpoints integration tests', () => {
     await user.save()
 
     userJwt = await generateJwt({ data: { email: user.email, username: user.username } })
-
-    user.jwt = userJwt
-    return user.save()
   })
 
   afterAll(async () => {

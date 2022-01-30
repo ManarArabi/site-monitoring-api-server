@@ -11,10 +11,6 @@ export const userSchema = new mongoose.Schema({
     required: true
   },
 
-  jwt: {
-    type: String
-  },
-
   email: {
     type: String,
     required: true,

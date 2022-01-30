@@ -25,10 +25,9 @@ export const userServices = {
       verificationToken
     })
 
-    const jwt = generateJwt({ data: { username, email } })
-    user.jwt = jwt
-
     await user.save()
+
+    const jwt = generateJwt({ data: { username, email } })
 
     emailVerificationServices.sendVerifyEmail({ email, verificationToken })
 
