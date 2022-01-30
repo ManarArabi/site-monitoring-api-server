@@ -14,7 +14,7 @@ The user will receive periodic email/Webhook alert updates when a pre-entered ur
 ## Docs
 You can find swagger documentation [here](https://monitor-url-api.herokuapp.com/api-docs/#/)
 
-## Restriction
+## Restrictions
 - `Interval` between url checks shouldn't be more 1550 minute (24 hours)
 - Url protocol should be `HTTP` or `HTTPS` only ... `TCP` requests not valid now.
 
